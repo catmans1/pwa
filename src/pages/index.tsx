@@ -1,7 +1,7 @@
 import Home from "./Home";
-import MyCourse from "./MyCourse";
+import User from "./User";
 
 export {
   Home,
-  MyCourse
+  User
 }

@@ -1,7 +1,6 @@
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import { Home, MyCourse } from 'pages';
+import { Home, User } from 'pages';
 
 function App() {
 
@@ -9,7 +8,7 @@ function App() {
     <div className='relative h-screen bg-gray-100'>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='myCourse' element={<MyCourse />} />
+        <Route path='user' element={<User />} />
       </Routes>
     </div>
   );
