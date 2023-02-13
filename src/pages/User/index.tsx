@@ -1,33 +1,65 @@
 import React, { useEffect, useState } from "react"
 import IUser from "interfaces/IUser";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "hooks";
+import { getData, storeData } from "db/localStorage";
 
 export default function User() {
+  const navigation = useNavigate()
+
   const [users, setUsers] = useState<IUser[]>([])
   const [loading, setLoading] = useState<boolean>(true)
+
+  const { username, removeAuth } = useAuth()
+
+  useEffect(() => {
+    if (username?.length === 0) {
+      navigation(-1)
+    }
+  }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     async function getUsers() {
       try {
         const response = await fetch('https://jsonplaceholder.typicode.com/users');
         const json = await response.json();
-        console.log(json)
         setUsers(json);
+        storeData('kUser', JSON.stringify(json))
       } catch (error) {
-        alert(error);
+        const data = getData('kUser')
+        if (data) {
+          const userObj: IUser[] = JSON.parse(data)
+          if (userObj) {
+            setUsers(userObj);
+          } else {
+            alert(error);
+          }
+        } else {
+          alert(error);
+        }
       } finally {
         setLoading(false);
       }
     }
+
     getUsers()
   }, [])
 
+  function onLogout() {
+    removeAuth()
+    navigation(-1)
+  }
+
   return (
     <div className="flex-row justify-center items-center">
-      <div className="flex-row px-4">
-        <label className="flex justify-center pt-4 text-center text-2xl text-blue-500 font-medium">
-          User Page
+      <label className="flex justify-center pt-4 text-center text-2xl text-blue-500 font-medium">
+        User Page
+      </label>
+      <div className="flex px-4 items-center justify-between">
+        <label className="flex">
+          Hello: {username}
         </label>
-        <div className="inline-block p-2 justify-end text-red-500 bg-gray-200 cursor-pointer">
+        <div onClick={onLogout} className="inline-block p-2 justify-end text-red-500 bg-gray-200 cursor-pointer">
           Logout
         </div>
       </div>

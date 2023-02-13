@@ -9,7 +9,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import { OfflineProvider } from 'contexts';
+import { AuthProvider, OfflineProvider } from 'contexts';
 
 const options = {
   // you can also just use 'bottom center'
@@ -24,15 +24,17 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-    <BrowserRouter>
-      <AlertProvider template={AlertTemplate} {...options}>
-        <OfflineProvider>
-          <HelmetProvider>
+  <BrowserRouter>
+    <AlertProvider template={AlertTemplate} {...options}>
+      <OfflineProvider>
+        <HelmetProvider>
+          <AuthProvider>
             <App />
-          </HelmetProvider>
-        </OfflineProvider>
-      </AlertProvider>
-    </BrowserRouter>
+          </AuthProvider>
+        </HelmetProvider>
+      </OfflineProvider>
+    </AlertProvider>
+  </BrowserRouter>
 );
 
 // If you want your app to work offline and load faster, you can change

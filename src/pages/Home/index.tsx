@@ -1,5 +1,6 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "hooks";
 
 export default function Home() {
   const navigation = useNavigate()
@@ -8,6 +9,14 @@ export default function Home() {
   const [password, setPassword] = useState<string>('')
   const [errorUsername, setErrorUsername] = useState<string>('')
   const [errorPassword, setErrorPassword] = useState<string>('')
+
+  const { username: userAuth, storeAuth } = useAuth()
+
+  useEffect(() => {
+    if (userAuth?.length > 0) {
+      navigation('user')
+    }
+  }, [userAuth]) //eslint-disable-line react-hooks/exhaustive-deps
 
   function onHandleSubmit() {
     setErrorUsername('')
@@ -20,7 +29,7 @@ export default function Home() {
       setErrorPassword('Please input password')
       return
     }
-
+    storeAuth({ username, password })
     navigation('user')
   }
 
