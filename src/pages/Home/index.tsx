@@ -43,7 +43,7 @@ export default function Home() {
           Login Page conflict
         </label>
         <form onSubmit={() => { }} className="flex flex-col mt-4">
-          <label>Username</label>
+          <label>Username asdasdasd</label>
           <input
             type='text'
             className="border border-gray-300 bg-transparent w-72 px-2 py-1 mt-2"
