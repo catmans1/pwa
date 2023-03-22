@@ -39,6 +39,9 @@ export default function Home() {
         <label className="text-center text-blue-500 font-medium">
           Login Page
         </label>
+        <label className="text-center text-blue-500 font-medium">
+          Login Page conflict
+        </label>
         <form onSubmit={() => { }} className="flex flex-col mt-4">
           <label>Username</label>
           <input
