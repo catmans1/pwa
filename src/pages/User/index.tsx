@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "hooks";
 import { getData, storeData } from "db/localStorage";
 
+import VideoJS from './VideoJS'
+
 export default function User() {
   const navigation = useNavigate()
 
@@ -11,6 +13,44 @@ export default function User() {
   const [loading, setLoading] = useState<boolean>(true)
 
   const { username, removeAuth } = useAuth()
+  const playerRef = React.useRef(null);
+
+  const videoJsOptions = {
+    autoplay: true,
+    controls: true,
+    responsive: true,
+    fluid: true,
+    html5: {
+      // hls: {
+      //   debug: true,
+      //   overrideNative: true
+      // },
+      vhs: {
+        overrideNative: true
+      },
+      nativeAudioTracks: false,
+      nativeVideoTracks: false
+    }, // for safari
+    sources: [{
+      src: 'https://playertest.longtailvideo.com/adaptive/oceans_aes/oceans_aes.m3u8',
+      type: 'application/x-mpegurl',
+      withCredentials: false
+    }]
+  };
+
+  const handlePlayerReady = (player:any) => {
+    playerRef.current = player;
+
+    // You can handle player events here, for example:
+    player.on('waiting', () => {
+      // videojs.log('player is waiting');
+    });
+
+    player.on('dispose', () => {
+      // videojs.log('player will dispose');
+    });
+  };
+
 
   useEffect(() => {
     if (username?.length === 0) {
@@ -67,7 +107,8 @@ export default function User() {
       {
         loading && <label className="flex justify-center my-4">Loading ...</label>
       }
-      <div className="flex-row mt-4 px-4 pb-7">
+      <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />
+      {/* <div className="flex-row mt-4 px-4 pb-7">
         {
           users.map((item) => {
             return (
@@ -91,7 +132,7 @@ export default function User() {
             )
           })
         }
-      </div>
+      </div> */}
     </div>
   )
 }
